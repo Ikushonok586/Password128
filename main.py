@@ -14,5 +14,22 @@ def simple_password(message):
         bot.reply_to(message, 
             f"🔑 *Пароль:* `{password}`\n\n💪 *Сложность:* {check_strength(password)}", 
             parse_mode='Markdown')
-    except:
         bot.reply_to(message, "❌ Используй: /password или /password 16")
+
+
+@bot.message_handler(commands=['multi'])
+def multi(message):
+    bot.send_message(message.chat.id, "Сколько паролей?")
+    bot.register_next_step_handler(message, ask_count)
+
+def ask_count(message):
+    count = int(message.text)
+    bot.send_message(message.chat.id, "Сколько символов?")
+    bot.register_next_step_handler(message, lambda m: generate(m, count))
+def generate(message, count):
+    length = int(message.text)
+    text = ""
+    for i in range(count):
+        pwd = generate_password(length)[0]
+        text += f"{i+1}. {pwd}\n"
+    bot.send_message(message.chat.id, text)
