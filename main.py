@@ -21,9 +21,10 @@ def simple_password(message):
         password = generate_password(length)
         add_to_history(message.chat.id, password)
         
-        bot.reply_to(message, 
-            f"🔑 *Пароль:* `{password}`\n\n💪 *Сложность:* {check_strength(password)}", 
+        bot.reply_to(message,
+            f"🔑 *Пароль:* `{password}`\n\n💪 *Сложность:* {check_strength(password)}",
             parse_mode='Markdown')
+    except (ValueError, IndexError):
         bot.reply_to(message, "❌ Используй: /password или /password 16")
 
 
@@ -40,6 +41,6 @@ def generate(message, count):
     length = int(message.text)
     text = ""
     for i in range(count):
-        pwd = generate_password(length)[0]
+        pwd = generate_password(length)
         text += f"{i+1}. {pwd}\n"
     bot.send_message(message.chat.id, text)
