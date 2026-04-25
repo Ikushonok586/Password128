@@ -1,3 +1,13 @@
+import telebot
+from utils import generate_password, check_strength, add_to_history
+
+bot = telebot.TeleBot('YOUR_BOT_TOKEN_HERE')
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Привет! Я бот для генерации паролей. Используй команду /password, чтобы получить новый пароль. Ты можешь указать длину пароля, например: /password 16")
+
+
 @bot.message_handler(commands=['password'])
 def simple_password(message):
     try:
